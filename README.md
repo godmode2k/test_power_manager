@@ -19,6 +19,3 @@ TEST: <br>
  - You have to modify MAC ID for yours
  - SEE: #define _MAC_ID_		XXXXXX	// 6 bytes
 
-
-
- _EOF_
