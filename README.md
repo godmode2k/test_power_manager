@@ -13,7 +13,7 @@ Features: <br>
  - AP search (broadcast)
 
 NOTE: <br>
- - Implements through packet analysis
+ - Implemented through packet analysis
 
 TEST: <br>
  - You have to modify MAC ID for yours

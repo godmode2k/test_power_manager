@@ -34,7 +34,7 @@ Note:
 //! Definition
 // ---------------------------------------------------------------
 #define SERVERPORT		5000
-#define SERVERPORT_BC	4999
+#define SERVERPORT_BC		4999
 
 #define _MAC_ID_		XXXXXX	// 6 bytes
 // ---------------------------------------------------------------
@@ -55,27 +55,27 @@ void func_turn_onoff(const char* ipaddr, const char* port, const int onoff);
 //! MAIN
 // ---------------------------------------------------------------
 int main(int argc, char *argv[]) {
-    int sockfd;
-    struct sockaddr_in svr_addr;
-    int numbytes;
+	int sockfd;
+	struct sockaddr_in svr_addr;
+	int numbytes;
 	int optVal = 1;
 	int udp = 0;
 
 
 
-    if ( argc < 3 ) {
+	if ( argc < 3 ) {
 		printf( "\n" );
 		fprintf( stderr, "[Turn on/off]\n" );
-        fprintf( stderr, "usage: ip port {turn on/off: 1 if on, otherwise 0}\n" );
+		fprintf( stderr, "usage: ip port {turn on/off: 1 if on, otherwise 0}\n" );
 		printf( "\n" );
 		fprintf( stderr, "[Broadcast]\n" );
-        fprintf( stderr, "usage: ip port 255 {turn on/off: 1 if on, otherwise 0}\n" );
+		fprintf( stderr, "usage: ip port 255 {turn on/off: 1 if on, otherwise 0}\n" );
 		printf( "\n" );
 		fprintf( stderr, "[Get info]\n" );
-        fprintf( stderr, "usage: ip port\n" );
+		fprintf( stderr, "usage: ip port\n" );
 
-        exit( 1 );
-    }
+		exit( 1 );
+	}
 
 	if ( argc == 3 ) {
 		// Get info (PowerManager AP's IP address)
@@ -94,15 +94,15 @@ int main(int argc, char *argv[]) {
 	else {
 		printf( "\n" );
 		fprintf( stderr, "[Turn on/off]\n" );
-        fprintf( stderr, "usage: ip port {turn on/off: 1 if on, otherwise 0}\n" );
+		fprintf( stderr, "usage: ip port {turn on/off: 1 if on, otherwise 0}\n" );
 		printf( "\n" );
 		fprintf( stderr, "[Broadcast]\n" );
-        fprintf( stderr, "usage: ip port 255 {turn on/off: 1 if on, otherwise 0}\n" );
+		fprintf( stderr, "usage: ip port 255 {turn on/off: 1 if on, otherwise 0}\n" );
 		printf( "\n" );
 		fprintf( stderr, "[Get info]\n" );
-        fprintf( stderr, "usage: ip port\n" );
+		fprintf( stderr, "usage: ip port\n" );
 
-        exit( 1 );
+		exit( 1 );
 	}
 
 	return 0;
@@ -113,14 +113,14 @@ int main(int argc, char *argv[]) {
 
 
 void func_query_broadcast(const char* ipaddr, const char* port, const int onoff) {
-    int sockfd;
-    int sockfd_bcr;
-    struct sockaddr_in svr_addr;
-    struct sockaddr_in svr_bcr_addr;
+	int sockfd;
+	int sockfd_bcr;
+	struct sockaddr_in svr_addr;
+	struct sockaddr_in svr_bcr_addr;
 	unsigned int svr_addr_len = 0;
 	unsigned int svr_bcr_addr_len = 0;
 	struct hostent* host_ent;
-    int numbytes;
+	int numbytes;
 	int optVal = 1;
 	int optVal_bcr = 1;
 	int optVal_broadcast = 1;	// broadcast permission
@@ -151,34 +151,34 @@ void func_query_broadcast(const char* ipaddr, const char* port, const int onoff)
 	}
 
 	printf( "[+] socket opt...\n" );
-    if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
-        perror( "setsockopt" );
+	if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
+		perror( "setsockopt" );
 		close( sockfd );
-        exit( 1 );
+		exit( 1 );
 	}
 	if ( setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &optVal_broadcast, sizeof(optVal_broadcast)) == -1 ) {
-        perror( "setsockopt" );
+		perror( "setsockopt" );
 		close( sockfd );
-        exit( 1 );
-    }
+		exit( 1 );
+	}
 
 	printf( "[+] socket opt... for Broadcast receiver\n" );
-    if ( setsockopt(sockfd_bcr, SOL_SOCKET, SO_REUSEADDR, &optVal_bcr, sizeof(optVal_bcr))  == -1 ) {
-        perror( "setsockopt" );
+	if ( setsockopt(sockfd_bcr, SOL_SOCKET, SO_REUSEADDR, &optVal_bcr, sizeof(optVal_bcr))  == -1 ) {
+		perror( "setsockopt" );
 		close( sockfd );
 		close( sockfd_bcr );
-        exit( 1 );
+		exit( 1 );
 	}
 
 
-    svr_addr.sin_family = AF_INET;
-    svr_addr.sin_port = htons( (unsigned int)atoi(port) );
-    svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
+	svr_addr.sin_family = AF_INET;
+	svr_addr.sin_port = htons( (unsigned int)atoi(port) );
+	svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
 
 	// for broadcast receiver
-    svr_bcr_addr.sin_family = AF_INET;
-    svr_bcr_addr.sin_port = htons( SERVERPORT_BC );
-    svr_bcr_addr.sin_addr.s_addr = htonl( INADDR_ANY );
+	svr_bcr_addr.sin_family = AF_INET;
+	svr_bcr_addr.sin_port = htons( SERVERPORT_BC );
+	svr_bcr_addr.sin_addr.s_addr = htonl( INADDR_ANY );
 
 
 	{
@@ -247,10 +247,10 @@ void func_query_broadcast(const char* ipaddr, const char* port, const int onoff)
 }
 
 void func_query_info(const char* ipaddr, const char* port) {
-    int sockfd;
-    struct sockaddr_in svr_addr;
+	int sockfd;
+	struct sockaddr_in svr_addr;
 	unsigned int svr_addr_len = 0;
-    int numbytes;
+	int numbytes;
 	int optVal = 1;
 
 	const char* cmd = "PM Req!";
@@ -268,22 +268,22 @@ void func_query_info(const char* ipaddr, const char* port) {
 	}
 
 	printf( "[+] socket opt...\n" );
-    if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
-        perror( "setsockopt" );
+	if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
+		perror( "setsockopt" );
 		close( sockfd );
-        exit( 1 );
+		exit( 1 );
 	}
 
-    svr_addr.sin_family = AF_INET;
-    svr_addr.sin_port = htons( SERVERPORT_BC );
-    svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
+	svr_addr.sin_family = AF_INET;
+	svr_addr.sin_port = htons( SERVERPORT_BC );
+	svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
 
 
 	printf( "[+] connect... ip = %s:%s\n", ipaddr, port );
 	if ( connect(sockfd, (struct sockaddr*)&svr_addr, sizeof(svr_addr)) == -1 ) {
-        perror( "connect" );
+		perror( "connect" );
 		close( sockfd );
-        exit( 1 );
+		exit( 1 );
 	}
 
 	printf( "[+] send...\n" );
@@ -319,9 +319,9 @@ void func_turn_onoff(const char* ipaddr, const char* port, const int onoff) {
 	  .  | X  X  X  X  X  X  | P   | .  .  .  | .  .  .
 	*/
 
-    int sockfd;
-    struct sockaddr_in svr_addr;
-    int numbytes;
+	int sockfd;
+	struct sockaddr_in svr_addr;
+	int numbytes;
 	int optVal = 1;
 
 	unsigned char send_buf[24+1] = { 0, };
@@ -339,21 +339,21 @@ void func_turn_onoff(const char* ipaddr, const char* port, const int onoff) {
 	}
 
 	printf( "[+] socket opt...\n" );
-    if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
-        perror( "setsockopt" );
+	if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal))  == -1 ) {
+		perror( "setsockopt" );
 		close( sockfd );
-        exit( 1 );
+		exit( 1 );
 	}
 
-    svr_addr.sin_family = AF_INET;
-    svr_addr.sin_port = htons( (unsigned int)atoi(port) );
-    svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
+	svr_addr.sin_family = AF_INET;
+	svr_addr.sin_port = htons( (unsigned int)atoi(port) );
+	svr_addr.sin_addr.s_addr = inet_addr( ipaddr );
 
 	printf( "[+] connect... ip = %s:%s\n", ipaddr, port );
 	if ( connect(sockfd, (struct sockaddr*)&svr_addr, sizeof(svr_addr)) == -1 ) {
-        perror( "connect" );
+		perror( "connect" );
 		close( sockfd );
-        exit( 1 );
+		exit( 1 );
 	}
 
 
